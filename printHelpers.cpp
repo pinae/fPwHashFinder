@@ -1,5 +1,5 @@
 #include <iostream>
-#include "vectorclass.h"
+#include "vectorclassLibrary/vectorclass.h"
 using namespace std;
 
 char* getHex(unsigned char* bytes, int wordsCount=2, int wordSize=8) {

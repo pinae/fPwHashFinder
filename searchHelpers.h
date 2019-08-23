@@ -1,5 +1,5 @@
 #include <fstream>
-#include "vectorclass.h"
+#include "vectorclassLibrary/vectorclass.h"
 using namespace std;
 
 unsigned char* switchEndian(unsigned char* a, int size = 16);

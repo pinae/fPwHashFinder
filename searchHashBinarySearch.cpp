@@ -2,7 +2,7 @@
 #include <cstring>
 #include "searchHelpers.h"
 #include "printHelpers.h"
-#include "vectorclass.h"
+#include "vectorclassLibrary/vectorclass.h"
 using namespace std;
 
 //#define DEBUG

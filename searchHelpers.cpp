@@ -2,7 +2,7 @@
 #include <cstring>
 #include <fstream>
 #include <limits>
-#include "vectorclass.h"
+#include "vectorclassLibrary/vectorclass.h"
 using namespace std;
 
 //#define DEBUG_DETAILED

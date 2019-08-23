@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
             printHash(pwHash, 2, 8, 16);
             printf("\n");
         #endif
-        double pwHashAsDbl = hashToDouble(pwHash, 0);
+        double pwHashAsDbl = md5ToDouble(pwHash, 0);
 
         // Calculate
         rangeStart = initRangeStart;
@@ -63,8 +63,8 @@ int main(int argc, char *argv[]) {
             printHash(rangeHash, 2, 8, 0); printf(" ");
             printHash(rangeHash, 2, 8, 16); printf("\n");
         #endif
-        double rangeStartHashDbl = hashToDouble(rangeHash, 0);
-        double rangeEndHashDbl = hashToDouble(rangeHash, 2);
+        double rangeStartHashDbl = md5ToDouble(rangeHash, 0);
+        double rangeEndHashDbl = md5ToDouble(rangeHash, 2);
         #ifdef DEBUG
             printf("Double range is %f - %f\n", rangeStartHashDbl, rangeEndHashDbl);
         #endif
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]) {
                             rangeStart = piv2Pos;
                             memcpy((char*) rangeHash, (char*) pivHash + 16, 16);
                             free(pivHash);
-                            rangeStartHashDbl = hashToDouble(rangeHash, 0);
+                            rangeStartHashDbl = md5ToDouble(rangeHash, 0);
                         } else {
                             #ifdef DEBUG
                                 printf("Selecting middle range.\n");
@@ -120,8 +120,8 @@ int main(int argc, char *argv[]) {
                             rangeEnd = piv2Pos;
                             free(rangeHash);
                             rangeHash = pivHash;
-                            rangeStartHashDbl = hashToDouble(rangeHash, 0);
-                            rangeEndHashDbl = hashToDouble(rangeHash, 2);
+                            rangeStartHashDbl = md5ToDouble(rangeHash, 0);
+                            rangeEndHashDbl = md5ToDouble(rangeHash, 2);
                         }
                     } else {
                         #ifdef DEBUG
@@ -130,7 +130,7 @@ int main(int argc, char *argv[]) {
                         rangeEnd = piv1Pos;
                         memcpy((char*) rangeHash, (char*) pivHash, 16);
                         free(pivHash);
-                        rangeEndHashDbl = hashToDouble(rangeHash, 2);
+                        rangeEndHashDbl = md5ToDouble(rangeHash, 2);
                     }
                 } else {
                     if (sigleGt(pwHash, pivHash)) {
@@ -140,7 +140,7 @@ int main(int argc, char *argv[]) {
                         rangeStart = piv1Pos;
                         memcpy((char*) rangeHash, (char*) pivHash, 16);
                         free(pivHash);
-                        rangeStartHashDbl = hashToDouble(rangeHash, 0);
+                        rangeStartHashDbl = md5ToDouble(rangeHash, 0);
                     } else {
                         #ifdef DEBUG
                             printf("piv2 is out of range. Selecting lower range with piv1 only.\n");
@@ -148,7 +148,7 @@ int main(int argc, char *argv[]) {
                         rangeEnd = piv1Pos;
                         memcpy((char*) rangeHash + 16, (char*) pivHash, 16);
                         free(pivHash);
-                        rangeEndHashDbl = hashToDouble(rangeHash, 2);
+                        rangeEndHashDbl = md5ToDouble(rangeHash, 2);
                     }
                 }
             } else {
@@ -170,7 +170,7 @@ int main(int argc, char *argv[]) {
                     rangeStart = piv1Pos + 1;
                     readHash(rangeHash, rangeStart, &file_stream, fileBegin, true);
                     free(pivHash);
-                    rangeStartHashDbl = hashToDouble(rangeHash, 0);
+                    rangeStartHashDbl = md5ToDouble(rangeHash, 0);
                     #ifdef DEBUG_DETAILED
                         printf("range (%ld - %ld): ", rangeStart, rangeEnd);
                         printHash(rangeHash, 2, 8, 0); printf(" ");
@@ -183,7 +183,7 @@ int main(int argc, char *argv[]) {
                     rangeEnd = piv1Pos;
                     memcpy((char*) rangeHash + 16, (char*) pivHash, 16);
                     free(pivHash);
-                    rangeEndHashDbl = hashToDouble(rangeHash, 2);
+                    rangeEndHashDbl = md5ToDouble(rangeHash, 2);
                     #ifdef DEBUG_DETAILED
                         printf("range (%ld - %ld): ", rangeStart, rangeEnd);
                         printHash(rangeHash, 2, 8, 0); printf(" ");

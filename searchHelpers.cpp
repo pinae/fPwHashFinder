@@ -1,4 +1,5 @@
 #include <openssl/md5.h>
+#include <openssl/sha.h>
 #include <cstring>
 #include <fstream>
 #include <limits>
@@ -28,6 +29,16 @@ unsigned char* calcMd5(char* string, int mallocSize = 16) {
     return digest;
 }
 
+unsigned char* calc_sha1(char* string) {
+    unsigned char* digest;
+    digest = (unsigned char*) malloc(20);
+    SHA_CTX ctx;
+    SHA1_Init(&ctx);
+    SHA1_Update(&ctx, string, strlen(string));
+    SHA1_Final(digest, &ctx);
+    return digest;
+}
+
 void dualGt(Vec4uq* a, Vec4uq* b, bool* gt1, bool* gt2) {
     Vec4qb a_gt_b = *a > *b;
     Vec4qb a_eq_b = *a == *b;
@@ -39,6 +50,15 @@ bool sigleGt(Vec4uq* a, Vec4uq* b) {
     Vec4qb a_gt_b = *a > *b;
     Vec4qb a_eq_b = *a == *b;
     return a_gt_b.extract(0) || (a_eq_b.extract(0) && a_gt_b.extract(1));
+}
+
+bool threeElemGt(Vec4uq* a, Vec4uq* b) {
+    Vec4qb a_gt_b = *a > *b;
+    Vec4qb a_eq_b = *a == *b;
+    return a_gt_b.extract(0) ||
+           (a_eq_b.extract(0) && a_gt_b.extract(1)) ||
+           (a_eq_b.extract(0) && a_eq_b.extract(1) && a_gt_b.extract(2)) ||
+           (a_eq_b.extract(0) && a_eq_b.extract(1) && a_eq_b.extract(2) && a_gt_b.extract(3));
 }
 
 void readHash(Vec4uq* v, unsigned int p, ifstream* s, streampos begin, bool lower=true) {
@@ -82,7 +102,13 @@ unsigned int* readCount(unsigned int p, ifstream* s, streampos begin) {
     return count;
 }
 
-double hashToDouble(Vec4uq* v, int vecOffset= 0) {
+double md5ToDouble(Vec4uq* v, int vecOffset= 0) {
     auto dv = (double) v->extract(vecOffset);
     return dv * (double) numeric_limits<unsigned long>::max() + (double) v->extract(1 + vecOffset);
+}
+
+double sha1ToDouble(Vec4uq* v, int vecOffset= 0) {
+    auto dv = (double) v->extract(vecOffset);
+    dv = dv * (double) numeric_limits<unsigned long>::max() + (double) v->extract(1 + vecOffset);
+    return dv * (double) numeric_limits<unsigned long>::max() + (double) v->extract(2 + vecOffset);
 }
